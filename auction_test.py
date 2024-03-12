@@ -24,6 +24,13 @@ def test_lower_than_or_equal_to_zero_bit_price(auction):
         auction.bid("Zero Bid", 0)
 
 
+def test_jong_jai_fail(auction):
+    """Test fail naja"""
+    auction.bid("test", 20)
+    assert auction.winner() == "test"
+    assert auction.best_bid() == 20
+
+
 def test_closed_auction_bid(auction):
     """Bidder shouldn't be able to bid the closed auction."""
     auction.start()
