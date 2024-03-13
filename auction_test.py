@@ -4,18 +4,54 @@ from auction import Auction, AuctionError
 
 @pytest.fixture
 def auction():
-    """Create an auction before each test."""
+    """Create an auction before each test. Minimum increament is 1"""
     return Auction("Test Auction")
 
 
-def test_new_auction(auction):
+@pytest.fixture
+def auction_2():
+    """Create an openned action with minimum increament of 50 highest bid as 100"""
+    auction = Auction("Game\'s PS5", 50)
+    auction.start()
+    auction.bid("Jj", 100)
+    return auction
+
+
+def test_bid_new_auction(auction):
     """a new auction has no bids and bidding is disabled."""
     assert auction.best_bid() == 0
     assert auction.winner() == 'No Bids'
 
 
+def test_first_bit(auction):
+    """Bid with 0 plus minimum increment"""
+    auction.start()
+    auction.bid("Game", 1)
+    assert auction.winner() == "Game"
+    assert auction.best_bid() == 1
+
+
+def test_bid_after_other_bidder(auction_2):
+    """Bid after other user with highest bid plus minimum increment"""
+    assert auction_2.winner() == "Jj"
+    assert auction_2.best_bid() == 100
+    auction_2.bid("Boom", 150)
+    assert auction_2.winner() == "Boom"
+    assert auction_2.best_bid() == 150
+
+
+def test_bid_not_exeed_best_bid(auction_2):
+    """Bid does not exeed or equal to highest bid plus minimum increment"""
+    assert auction_2.winner() == "Jj"
+    assert auction_2.best_bid() == 100
+    with pytest.raises(AuctionError):
+        auction_2.bid("Yanat", 120)
+    assert auction_2.winner() == "Jj"
+    assert auction_2.best_bid() == 100
+
+
 def test_lower_than_or_equal_to_zero_bit_price(auction):
-    """The bit price shouldn't lower than or equal to 0."""
+    """The bid price shouldn't lower than or equal to 0."""
     auction.start()
     with pytest.raises(ValueError):
         auction.bid("Negative Bid", -1)
@@ -43,7 +79,7 @@ def test_blank_bidder(auction):
     """The bid method requires a non-blank bidder name."""
     auction.start()
     with pytest.raises(ValueError):
-        auction.bid(" ", )
+        auction.bid(" ", 0)
 
 
 def test_too_low_bid(auction):
