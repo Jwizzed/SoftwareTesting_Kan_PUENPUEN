@@ -43,7 +43,7 @@ def test_blank_bidder(auction):
     """The bid method requires a non-blank bidder name."""
     auction.start()
     with pytest.raises(ValueError):
-        auction.bid(" ", 100)
+        auction.bid(" ", )
 
 
 def test_too_low_bid(auction):
