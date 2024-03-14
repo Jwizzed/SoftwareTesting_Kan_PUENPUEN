@@ -40,8 +40,8 @@ def test_bid_after_other_bidder(auction_2):
     assert auction_2.best_bid() == 150
 
 
-def test_bid_not_exeed_best_bid(auction_2):
-    """Bid does not exeed or equal to highest bid plus minimum increment"""
+def test_bid_not_exceed_best_bid(auction_2):
+    """Bid does not exceed or equal to highest bid plus minimum increment"""
     assert auction_2.winner() == "Jj"
     assert auction_2.best_bid() == 100
     with pytest.raises(AuctionError):
