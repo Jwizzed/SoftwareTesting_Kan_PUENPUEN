@@ -37,7 +37,7 @@ def test_bid_after_other_bidder(auction_2):
     assert auction_2.best_bid() == 100
     auction_2.bid("Boom", 150)
     assert auction_2.winner() == "Boom"
-    assert auction_2.best_bid() == 200
+    assert auction_2.best_bid() == 150
 
 
 def test_bid_not_exceed_best_bid(auction_2):
@@ -45,7 +45,7 @@ def test_bid_not_exceed_best_bid(auction_2):
     assert auction_2.winner() == "Jj"
     assert auction_2.best_bid() == 100
     with pytest.raises(AuctionError):
-        auction_2.bid("Yanat", 120)
+        auction_2.bid("Yanat", 300)
     assert auction_2.winner() == "Jj"
     assert auction_2.best_bid() == 100
 
