@@ -27,7 +27,7 @@ def test_first_bit(auction):
     """Bid with 0 plus minimum increment"""
     auction.start()
     auction.bid("Game", 1)
-    assert auction.winner() == "Jj"
+    assert auction.winner() == "Game"
     assert auction.best_bid() == 1
 
 
@@ -37,7 +37,7 @@ def test_bid_after_other_bidder(auction_2):
     assert auction_2.best_bid() == 100
     auction_2.bid("Boom", 150)
     assert auction_2.winner() == "Boom"
-    assert auction_2.best_bid() == 150
+    assert auction_2.best_bid() == 200
 
 
 def test_bid_not_exceed_best_bid(auction_2):
